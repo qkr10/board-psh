@@ -27,20 +27,33 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     public List<Memo> initialize() {
-        List<Memo> result = new ArrayList<>();
-
         IntStream.rangeClosed(1, 10).forEach(i -> {
             MemoEntity memo = MemoEntity.builder().memoText("egyou" + i).build();
             memoRepository.save(memo);
         });
 
+        return readList();
+    }
+
+    @Override
+    public List<Memo> readList() {
         List<MemoEntity> entities = memoRepository.findAll();
+        List<Memo> result = new ArrayList<>();
         for (MemoEntity memo : entities) {
             Memo m = new Memo();
             m.setMno(memo.getMno());
             m.setMemoText(memo.getMemoText());
             result.add(m);
         }
+        return result;
+    }
+
+    @Override
+    public Memo read(Memo m) {
+        MemoEntity memoEntity = memoRepository.getById(m.getMno());
+        Memo result = new Memo();
+        result.setMno(memoEntity.getMno());
+        result.setMemoText(memoEntity.getMemoText());
         return result;
     }
 }

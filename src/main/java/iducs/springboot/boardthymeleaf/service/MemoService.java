@@ -6,4 +6,6 @@ import java.util.List;
 public interface MemoService {
     Memo create(Memo m);
     List<Memo> initialize();
+    List<Memo> readList();
+    Memo read(Memo m);
 }
