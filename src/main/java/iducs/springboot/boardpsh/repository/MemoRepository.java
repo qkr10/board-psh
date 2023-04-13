@@ -1,6 +1,6 @@
-package iducs.springboot.boardthymeleaf.repository;
+package iducs.springboot.boardpsh.repository;
 
-import iducs.springboot.boardthymeleaf.entity.MemoEntity;
+import iducs.springboot.boardpsh.entity.MemoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

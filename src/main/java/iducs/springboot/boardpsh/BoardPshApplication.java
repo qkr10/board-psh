@@ -1,13 +1,13 @@
-package iducs.springboot.boardthymeleaf;
+package iducs.springboot.boardpsh;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BoardThymeleafApplication {
+public class BoardPshApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BoardThymeleafApplication.class, args);
+        SpringApplication.run(BoardPshApplication.class, args);
     }
 
 }

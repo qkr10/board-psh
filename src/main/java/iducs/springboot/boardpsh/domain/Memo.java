@@ -1,4 +1,4 @@
-package iducs.springboot.boardthymeleaf.domain;
+package iducs.springboot.boardpsh.domain;
 
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package iducs.springboot.boardthymeleaf.entity;
+package iducs.springboot.boardpsh.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

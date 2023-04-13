@@ -1,10 +1,10 @@
-package iducs.springboot.boardthymeleaf;
+package iducs.springboot.boardpsh;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BoardThymeleafApplicationTests {
+class BoardPshApplicationTests {
 
     @Test
     void contextLoads() {

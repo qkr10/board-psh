@@ -1,8 +1,4 @@
-package iducs.springboot.boardthymeleaf.service;
-
-import iducs.springboot.boardthymeleaf.domain.Memo;
-
-import java.util.List;
+package iducs.springboot.boardpsh.service;
 
 public class MemoServiceImplJPA {//implements MemoService {
 //

@@ -1,7 +1,7 @@
-package iducs.springboot.boardthymeleaf.controller;
+package iducs.springboot.boardpsh.controller;
 
-import iducs.springboot.boardthymeleaf.domain.Memo;
-import iducs.springboot.boardthymeleaf.service.MemoService;
+import iducs.springboot.boardpsh.domain.Memo;
+import iducs.springboot.boardpsh.service.MemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

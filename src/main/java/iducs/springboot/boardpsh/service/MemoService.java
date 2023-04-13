@@ -1,6 +1,6 @@
-package iducs.springboot.boardthymeleaf.service;
+package iducs.springboot.boardpsh.service;
 
-import iducs.springboot.boardthymeleaf.domain.Memo;
+import iducs.springboot.boardpsh.domain.Memo;
 import java.util.List;
 
 public interface MemoService {

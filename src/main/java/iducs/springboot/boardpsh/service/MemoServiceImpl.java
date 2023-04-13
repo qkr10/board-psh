@@ -1,8 +1,8 @@
-package iducs.springboot.boardthymeleaf.service;
+package iducs.springboot.boardpsh.service;
 
-import iducs.springboot.boardthymeleaf.domain.Memo;
-import iducs.springboot.boardthymeleaf.entity.MemoEntity;
-import iducs.springboot.boardthymeleaf.repository.MemoRepository;
+import iducs.springboot.boardpsh.domain.Memo;
+import iducs.springboot.boardpsh.entity.MemoEntity;
+import iducs.springboot.boardpsh.repository.MemoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
