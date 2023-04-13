@@ -21,4 +21,13 @@ public class HomeController {
         });
         return "index";
     }
+
+    @GetMapping("/tables")
+    public String getTables() { return "tables"; }
+
+    @GetMapping("/buttons")
+    public String getButtons() { return "buttons"; }
+
+    @GetMapping("/cards")
+    public String getCards() { return "cards"; }
 }
