@@ -19,15 +19,15 @@ public class HomeController {
             MemoEntity memo = MemoEntity.builder().memoText("egyou : " + i).build();
             memoRepository.save(memo);
         });
-        return "index";
+        return "/admin/index";
     }
 
     @GetMapping("/tables")
-    public String getTables() { return "tables"; }
+    public String getTables() { return "/admin/tables"; }
 
     @GetMapping("/buttons")
-    public String getButtons() { return "buttons"; }
+    public String getButtons() { return "/admin/buttons"; }
 
     @GetMapping("/cards")
-    public String getCards() { return "cards"; }
+    public String getCards() { return "/admin/cards"; }
 }

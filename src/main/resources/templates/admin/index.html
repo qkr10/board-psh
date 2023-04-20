@@ -11,7 +11,7 @@
 
     <title>SB Admin 2 - Dashboard</title>
 
-    <div th:replace="~{main-fragments :: head}"></div>
+    <div th:replace="~{/fragments/main-fragments :: head}"></div>
 
 </head>
 
@@ -20,7 +20,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <div th:replace="~{main-fragments :: sidebar}"></div>
+        <div th:replace="~{/fragments/main-fragments :: sidebar}"></div>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -566,15 +566,7 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            <div th:replace="~{/fragments/main-fragments :: footer}"></div>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -607,7 +599,7 @@
         </div>
     </div>
 
-    <div th:replace="~{main-fragments :: tail}"></div>
+    <div th:replace="~{/fragments/main-fragments :: tail}"></div>
 
 </body>
 
