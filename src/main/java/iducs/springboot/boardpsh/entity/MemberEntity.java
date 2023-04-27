@@ -1,5 +1,6 @@
 package iducs.springboot.boardpsh.entity;
 
+import iducs.springboot.boardpsh.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,4 +25,11 @@ public class MemberEntity {
 
     @Column(length = 20, nullable = false)
     private String pw;
+
+    public MemberEntity(Member member) {
+        seq = member.getSeq();
+        email = member.getEmail();
+        name = member.getName();
+        pw = member.getPw();
+    }
 }

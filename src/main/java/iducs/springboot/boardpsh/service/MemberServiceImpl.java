@@ -5,6 +5,7 @@ import iducs.springboot.boardpsh.domain.Memo;
 import iducs.springboot.boardpsh.entity.MemberEntity;
 import iducs.springboot.boardpsh.entity.MemoEntity;
 import iducs.springboot.boardpsh.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     final MemberRepository memberRepository;
+    final HttpSession httpSession;
 
     @Override
     public int create(Member m) {
-        MemberEntity entity = MemberEntity.builder()
-                .seq(m.getSeq())
-                .email(m.getEmail())
-                .name(m.getName())
-                .pw(m.getPw())
-                .build();
-        memberRepository.save(entity);
+        memberRepository.save(new MemberEntity(m));
         return 1;
     }
 
@@ -33,12 +29,7 @@ public class MemberServiceImpl implements MemberService {
     public Member read(Member m) {
         return memberRepository
                 .findById(m.getSeq())
-                .map((MemberEntity entity) -> Member.builder()
-                        .seq(entity.getSeq())
-                        .pw(entity.getPw())
-                        .name(entity.getName())
-                        .email(entity.getEmail())
-                        .build())
+                .map(Member::new)
                 .orElse(null);
     }
 
@@ -46,14 +37,8 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> readList() {
         List<MemberEntity> entities = memberRepository.findAll();
         List<Member> result = new ArrayList<>();
-        for (MemberEntity member : entities) {
-            Member m = Member.builder()
-                    .email(member.getEmail())
-                    .name(member.getName())
-                    .seq(member.getSeq())
-                    .build();
-            result.add(m);
-        }
+        for (MemberEntity member : entities)
+            result.add(new Member(member));
         return result;
     }
 
@@ -65,5 +50,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int delete(Member m) {
         return 0;
+    }
+
+    @Override
+    public boolean isExist(String email, String pwd) {
+        List<MemberEntity> entityList = memberRepository.findByEmailAndPw(email, pwd);
+        boolean result = entityList.size() == 1;
+        System.out.println(entityList.size());
+        if (result) {
+            httpSession.setAttribute("me", new Member(entityList.get(0)));
+        }
+        return result;
     }
 }

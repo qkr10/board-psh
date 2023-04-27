@@ -1,5 +1,6 @@
 package iducs.springboot.boardpsh.domain;
 
+import iducs.springboot.boardpsh.entity.MemberEntity;
 import lombok.*;
 
 @Builder
@@ -15,4 +16,11 @@ public class Member {
     private String email;
     private String name;
     private String pw;
+
+    public Member(MemberEntity entity) {
+        email = entity.getEmail();
+        name = entity.getName();
+        seq = entity.getSeq();
+        pw = entity.getPw();
+    }
 }

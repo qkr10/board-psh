@@ -10,4 +10,6 @@ public interface MemberService {
     List<Member> readList();
     int update(Member m);
     int delete(Member m);
+
+    boolean isExist(String email, String pwd);
 }
