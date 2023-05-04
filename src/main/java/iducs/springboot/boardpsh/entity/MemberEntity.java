@@ -6,15 +6,17 @@ import lombok.*;
 
 @Entity
 @Builder
-@Table(name = "b_member")
+@Table(name = "member_a201912024")
 @ToString
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberEntity {
+@SequenceGenerator(sequenceName = "member_a201912024_seq", name = "member_a201912024_seq_gen",
+    initialValue = 1, allocationSize = 1)
+public class MemberEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_a201912024_seq_gen")
     private Long seq;
 
     @Column(length = 30, nullable = false)

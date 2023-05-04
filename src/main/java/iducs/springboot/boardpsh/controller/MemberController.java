@@ -1,6 +1,7 @@
 package iducs.springboot.boardpsh.controller;
 
 import iducs.springboot.boardpsh.domain.Member;
+import iducs.springboot.boardpsh.domain.PageRequestDTO;
 import iducs.springboot.boardpsh.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,21 @@ public class MemberController {
 
         List<Member> members;
         if((members = memberService.readList()) != null) {
+            model.addAttribute("list", members);
+            return "/members/list";
+        }
+        else {
+            model.addAttribute("error message", "목록 조회에 실패. 권한 확인");
+            return "/error/message";
+        }
+
+    }
+
+    @GetMapping("/pn/{pn}")
+    public String getMemberList(@PathVariable int pn, Model model) {
+
+        List<Member> members = memberService.getList(new PageRequestDTO(pn, 10)).getDtoList();
+        if(members != null) {
             model.addAttribute("list", members);
             return "/members/list";
         }
