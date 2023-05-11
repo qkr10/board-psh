@@ -2,10 +2,12 @@ package iducs.springboot.boardpsh.domain;
 
 import lombok.Data;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Data
 public class PageResultDTO<DTO, EN> {
@@ -22,5 +24,21 @@ public class PageResultDTO<DTO, EN> {
 
     public PageResultDTO(Page<EN> result, Function<EN, DTO> fn) {
         dtoList = result.stream().map(fn).collect(Collectors.toList());
+        totalPage = result.getTotalPages();
+        makePageList(result.getPageable());
+    }
+
+    private void makePageList(Pageable pageable) {
+        this.curPage = pageable.getPageNumber() + 1;
+        this.size = pageable.getPageSize();
+        int tempEnd = (int)(Math.ceil(curPage / ((double) size))) * size;
+
+        start = tempEnd - size + 1;
+        end = Math.min(totalPage, tempEnd);
+
+        prev = start > 1;
+        next = totalPage > tempEnd;
+
+        pageList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
     }
 }

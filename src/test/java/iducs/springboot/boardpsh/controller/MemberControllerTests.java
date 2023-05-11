@@ -1,6 +1,8 @@
 package iducs.springboot.boardpsh.controller;
 
 import iducs.springboot.boardpsh.domain.Member;
+import iducs.springboot.boardpsh.domain.PageRequestDTO;
+import iducs.springboot.boardpsh.domain.PageResultDTO;
 import iducs.springboot.boardpsh.entity.MemberEntity;
 import iducs.springboot.boardpsh.repository.MemberRepository;
 import iducs.springboot.boardpsh.service.MemberService;
@@ -30,7 +32,7 @@ public class MemberControllerTests {
 
     @Test
     void initializeMember() {
-        IntStream.rangeClosed(1, 33).forEach(i -> {
+        IntStream.rangeClosed(1, 101).forEach(i -> {
             MemberEntity member = MemberEntity.builder()
                     .email("a"+i+"@induk.ac.kr")
                     .name("name" + i)
@@ -39,5 +41,19 @@ public class MemberControllerTests {
                     .build();
             memberRepository.save(member);
         });
+    }
+
+    @Test
+    public void testPageList() {
+        var pageResultDTO = PageRequestDTO.builder().page(2).size(10).build();
+        var resultDTO = memberService.getList(pageResultDTO);
+
+        for (Member m : resultDTO.getDtoList())
+            System.out.println(m);
+
+        System.out.println("Prev : " + resultDTO.isPrev());
+        System.out.println("Next : " + resultDTO.isNext());
+        System.out.println("Total Page : " + resultDTO.getTotalPage());
+        resultDTO.getPageList().forEach(i -> System.out.println(i));
     }
 }
