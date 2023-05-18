@@ -6,7 +6,6 @@ import iducs.springboot.boardpsh.domain.PageResultDTO;
 import iducs.springboot.boardpsh.entity.MemberEntity;
 import iducs.springboot.boardpsh.service.MemberService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +24,15 @@ public class MemberController {
 
     @GetMapping(value = {"/{pn}/{size}"})
     public String listMemberPagination(
-            @PathParam("pn") Optional<Integer> pn,
-            @PathParam("size") Optional<Integer> size,
+            @PathVariable("pn") Optional<String> pn,
+            @PathVariable("size") Optional<String> size,
             Model model
     ) {
         var pageRequestDTO = new PageRequestDTO();
         if (pn.isPresent() && size.isPresent()) {
-            pageRequestDTO = new PageRequestDTO(pn.get(), size.get());
+            var pageNum = Integer.parseInt(pn.get());
+            var sizeNum = Integer.parseInt(size.get());
+            pageRequestDTO = new PageRequestDTO(pageNum, sizeNum);
         }
         var members = memberService.getList(pageRequestDTO);
         if(members != null) {
