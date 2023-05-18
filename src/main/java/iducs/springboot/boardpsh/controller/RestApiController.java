@@ -18,17 +18,17 @@ import java.util.Optional;
 public class RestApiController {
     private final MemberService memberService;
 
-    @GetMapping
-    public PageResultDTO<Member, MemberEntity> getMemberList(
-            @RequestParam Optional<Integer> page,
-            @RequestParam Optional<Integer> size
-    ) {
-        var pageRequestDTO = new PageRequestDTO();
-        if (page.isPresent() && size.isPresent()) {
-            pageRequestDTO = new PageRequestDTO(page.get(), size.get(), 5);
-        }
-        return memberService.getList(pageRequestDTO);
-    }
+//    @GetMapping
+//    public PageResultDTO<Member, MemberEntity> getMemberList(
+//            @RequestParam Optional<Integer> page,
+//            @RequestParam Optional<Integer> size
+//    ) {
+//        var pageRequestDTO = new PageRequestDTO();
+//        if (page.isPresent() && size.isPresent()) {
+//            pageRequestDTO = new PageRequestDTO(page.get(), size.get(), 5);
+//        }
+//        return memberService.getList(pageRequestDTO);
+//    }
 
     @GetMapping("/")
     public String readList() {

@@ -1,11 +1,14 @@
 package iducs.springboot.boardpsh.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import iducs.springboot.boardpsh.domain.Member;
 import iducs.springboot.boardpsh.domain.Memo;
 import iducs.springboot.boardpsh.domain.PageRequestDTO;
 import iducs.springboot.boardpsh.domain.PageResultDTO;
 import iducs.springboot.boardpsh.entity.MemberEntity;
 import iducs.springboot.boardpsh.entity.MemoEntity;
+import iducs.springboot.boardpsh.entity.QMemberEntity;
 import iducs.springboot.boardpsh.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +74,35 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public PageResultDTO<Member, MemberEntity> getList(PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("seq"));
-        Page<MemberEntity> result = memberRepository.findAll(pageable);
-        return new PageResultDTO<>(result, Member::new, requestDTO.getPerPagination());
+
+        var ret = findByCondition(requestDTO);
+        var result = memberRepository.findAll(ret, pageable);
+        return new PageResultDTO<>(result, Member::new, requestDTO);
+    }
+
+    BooleanBuilder findByCondition(PageRequestDTO pageRequestDTO) {
+        String type = pageRequestDTO.getType();
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+        QMemberEntity qMemberEntity = QMemberEntity.memberEntity;
+
+        BooleanExpression expression = qMemberEntity.seq.gt(0L); // where seq > 0 and title == "title"
+        booleanBuilder.and(expression);
+
+        if(type == null || type.trim().length() == 0) {
+            return booleanBuilder;
+        }
+
+        String keyword = pageRequestDTO.getKeyword();
+
+        BooleanBuilder conditionBuilder = new BooleanBuilder();
+        if(type.contains("email")) { // email로 검색
+            conditionBuilder.or(qMemberEntity.email.contains(keyword));
+        }
+        if(type.contains("name")) { // name으로 검색
+            conditionBuilder.or(qMemberEntity.name.contains(keyword));
+        }
+        booleanBuilder.and(conditionBuilder);
+        return booleanBuilder;
     }
 }

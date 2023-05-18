@@ -95,16 +95,16 @@
                                     <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                                         <ul class="pagination">
                                             <li class="paginate_button page-item previous" id="dataTable_previous">
-                                                <a href="#" th:href="@{|/members?page=${list.start-1}&perPage=${list.size}&perPagination=${list.perPagination}|}"
+                                                <a href="#" th:href="@{${list.prevLink}}"
                                                    aria-controls="dataTable" data-dt-idx="0" tabindex="0"
                                                    th:if="${list.prev}" class="page-link">Previous</a></li>
-                                            <li class="paginate_button page-item" th:classappend="${page == list.curPage ? ' active' : ''}" th:each="page : ${list.pageList}">
-                                                <a href="#" th:href="@{|/members?page=${page}&perPage=${list.size}&perPagination=${list.perPagination}|}"
+                                            <li class="paginate_button page-item" th:classappend="${page.page == list.curPage ? ' active' : ''}" th:each="page : ${list.pageList}">
+                                                <a href="#" th:href="@{${page.pageLink}}"
                                                    aria-controls="dataTable" data-dt-idx="1" tabindex="0"
-                                                   class="page-link">[[${page}]]</a>
+                                                   class="page-link">[[${page.page}]]</a>
                                             </li>
                                             <li class="paginate_button page-item next" id="dataTable_next">
-                                                <a href="#" th:href="@{|/members?page=${list.end+1}&perPage=${list.size}&perPagination=${list.perPagination}|}"
+                                                <a href="#" th:href="@{${list.nextLink}}"
                                                    aria-controls="dataTable" data-dt-idx="2" tabindex="0"
                                                    th:if="${list.next}" class="page-link">Next</a>
                                             </li>
