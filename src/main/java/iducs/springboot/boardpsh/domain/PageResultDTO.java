@@ -17,12 +17,18 @@ public class PageResultDTO<DTO, EN> {
     private int curPage;
     private int size;
 
+    private int perPagination;
+
+    private int totalRows;
+
     private int start, end;
     private boolean prev, next;
 
     private List<Integer> pageList;
 
-    public PageResultDTO(Page<EN> result, Function<EN, DTO> fn) {
+    public PageResultDTO(Page<EN> result, Function<EN, DTO> fn, int perPagination) {
+        this.perPagination = perPagination;
+        this.totalRows = (int) result.getTotalElements();
         dtoList = result.stream().map(fn).collect(Collectors.toList());
         totalPage = result.getTotalPages();
         makePageList(result.getPageable());
@@ -30,10 +36,11 @@ public class PageResultDTO<DTO, EN> {
 
     private void makePageList(Pageable pageable) {
         this.curPage = pageable.getPageNumber() + 1;
-        this.size = pageable.getPageSize();
-        int tempEnd = (int)(Math.ceil(curPage / ((double) size))) * size;
 
-        start = tempEnd - size + 1;
+        this.size = pageable.getPageSize();
+        int tempEnd = (int)(Math.ceil(curPage / ((double) perPagination))) * perPagination;
+
+        start = tempEnd - perPagination + 1;
         end = Math.min(totalPage, tempEnd);
 
         prev = start > 1;

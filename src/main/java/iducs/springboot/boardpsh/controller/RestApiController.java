@@ -25,7 +25,7 @@ public class RestApiController {
     ) {
         var pageRequestDTO = new PageRequestDTO();
         if (page.isPresent() && size.isPresent()) {
-            pageRequestDTO = new PageRequestDTO(page.get(), size.get());
+            pageRequestDTO = new PageRequestDTO(page.get(), size.get(), 5);
         }
         return memberService.getList(pageRequestDTO);
     }

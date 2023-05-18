@@ -72,6 +72,6 @@ public class MemberServiceImpl implements MemberService {
     public PageResultDTO<Member, MemberEntity> getList(PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("seq"));
         Page<MemberEntity> result = memberRepository.findAll(pageable);
-        return new PageResultDTO<>(result, Member::new);
+        return new PageResultDTO<>(result, Member::new, requestDTO.getPerPagination());
     }
 }

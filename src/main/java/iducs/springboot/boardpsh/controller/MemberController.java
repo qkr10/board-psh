@@ -32,8 +32,31 @@ public class MemberController {
         if (pn.isPresent() && size.isPresent()) {
             var pageNum = Integer.parseInt(pn.get());
             var sizeNum = Integer.parseInt(size.get());
-            pageRequestDTO = new PageRequestDTO(pageNum, sizeNum);
+            pageRequestDTO = new PageRequestDTO(pageNum, sizeNum, 5);
         }
+        var members = memberService.getList(pageRequestDTO);
+        if(members != null) {
+            model.addAttribute("list", members);
+            return "/members/list";
+        }
+        else {
+            model.addAttribute("error message", "목록 조회에 실패. 권한 확인");
+            return "/error/message";
+        }
+    }
+
+    @GetMapping(value = {""})
+    public String listMemberPagination2(
+            @RequestParam(value = "page", required = false, defaultValue = "1") String page,
+            @RequestParam(value = "perPage", required = false, defaultValue = "10") String perPage,
+            @RequestParam(value = "perPagination", required = false, defaultValue = "5") String perPagination,
+            Model model
+    ) {
+        var pageNum = Integer.parseInt(page);
+        var sizeNum = Integer.parseInt(perPage);
+        var pageSizeNum = Integer.parseInt(perPagination);
+        var pageRequestDTO = new PageRequestDTO(pageNum, sizeNum, pageSizeNum);
+
         var members = memberService.getList(pageRequestDTO);
         if(members != null) {
             model.addAttribute("list", members);
@@ -67,7 +90,7 @@ public class MemberController {
         return "redirect:/members/login";
     }
 
-    @GetMapping("/")
+    @GetMapping("/pn")
     public String getMemberList(Model model) {
 
         List<Member> members;
@@ -83,9 +106,9 @@ public class MemberController {
     }
 
     @GetMapping("/pn/{pn}")
-    public String getMemberList(@PathVariable int pn, Model model) {
-
-        List<Member> members = memberService.getList(new PageRequestDTO(pn, 10)).getDtoList();
+    public String getMemberList2(@PathVariable String pn, Model model) {
+        var pnNum = Integer.parseInt(pn);
+        List<Member> members = memberService.getList(new PageRequestDTO(pnNum, 10, 5)).getDtoList();
         if(members != null) {
             model.addAttribute("list", members);
             return "/members/list";
