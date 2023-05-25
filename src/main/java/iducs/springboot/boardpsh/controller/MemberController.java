@@ -125,7 +125,7 @@ public class MemberController {
 //
 //    }
 
-    @GetMapping("/register")
+    @GetMapping("/reg-form")
     public String getRegisterForm(Model model) {
         model.addAttribute("member", Member.builder().build());
         return "/members/register";
