@@ -32,7 +32,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11
     implementation 'com.oracle.database.jdbc:ojdbc11:21.9.0.0'
 
-    // querydsl : jpa로 고급 질의 처리 어려움을 해결, 자바기반 통합 질의 방법
+    // querydsl : jpa로 고급 질의 처리 어려움을 해결, 자바기반 통합 질의 방법 - JPQL, Querydsl
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"

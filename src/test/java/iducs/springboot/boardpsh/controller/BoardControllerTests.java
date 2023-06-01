@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.stream.IntStream;
-
-import static iducs.springboot.boardpsh.entity.QBoardEntity.boardEntity;
+import java.util.stream.LongStream;
 
 @SpringBootTest
 public class BoardControllerTests {
@@ -20,16 +18,16 @@ public class BoardControllerTests {
     BoardRepository boardRepository;
 
     @Test
-    void registerBoard() {
-        Board board = Board.builder()
-                .bno(1L)
-                .title("title")
-                .content("content")
-                .writerSeq(1L)
-                .writerEmail("email")
-                .writerName("name")
-                .build();
-
-        boardService.registerBoard(board);
+    void initializeBoard() {
+        boardRepository.deleteAll();
+        LongStream.rangeClosed(1, 101).forEach(i -> {
+            Board board = Board.builder()
+                    .bno(i)
+                    .title("title"+i)
+                    .content("content"+i)
+                    .writerSeq(i)
+                    .build();
+            boardService.registerBoard(board);
+        });
     }
 }

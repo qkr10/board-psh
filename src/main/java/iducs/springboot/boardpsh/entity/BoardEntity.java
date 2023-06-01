@@ -17,7 +17,7 @@ public class BoardEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_a201912024_seq_gen")
     @SequenceGenerator(sequenceName = "board_a201912024_seq", name = "board_a201912024_seq_gen", initialValue = 1, allocationSize = 1)
-    private long bno;
+    private Long bno;
 
     @Column(length = 50, nullable = false)
     private String title;

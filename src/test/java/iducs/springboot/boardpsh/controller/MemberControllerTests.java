@@ -31,6 +31,7 @@ public class MemberControllerTests {
 
     @Test
     void initializeMember() {
+        memberRepository.deleteAll();
         IntStream.rangeClosed(1, 101).forEach(i -> {
             MemberEntity member = MemberEntity.builder()
                     .email("a"+i+"@induk.ac.kr")

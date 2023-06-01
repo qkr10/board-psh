@@ -26,6 +26,8 @@ public class Board {
     private String writerEmail;
     private String writerName;
 
+    private Long replyCount;
+
     // auditing
     private LocalDateTime regDate;
     private LocalDateTime modDate;
@@ -34,8 +36,21 @@ public class Board {
         bno = board.getBno();
         title = board.getTitle();
         content = board.getContent();
+
         writerSeq = member.getSeq();
         writerEmail = member.getEmail();
         writerName = member.getName();
+
+        regDate = board.getRegDate();
+        modDate = board.getModDate();
+    }
+
+    public Board(BoardEntity board) {
+        this(board, board.getWriter());
+    }
+
+    public Board(BoardEntity board, MemberEntity member, Long replyCount) {
+        this(board, member);
+        this.replyCount = replyCount;
     }
 }
