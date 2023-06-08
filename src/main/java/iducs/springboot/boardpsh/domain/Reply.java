@@ -16,4 +16,6 @@ public class Reply {
     private String text;
     private String replier;
     private Long bno;
+    private LocalDateTime regDate;
+    private LocalDateTime modDate;
 }

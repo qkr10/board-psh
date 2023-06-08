@@ -6,7 +6,7 @@ import lombok.*;
 
 //JPA Auditing을 활용하여서 생성한사람, 생성일자, 수정한사람, 수정일자 등을 선택하여서 감시
 @Entity
-@Table(name = "board_a201912024")
+@Table(name = "a201912024_board")
 
 @ToString
 @Getter
@@ -15,8 +15,8 @@ import lombok.*;
 @NoArgsConstructor
 public class BoardEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_a201912024_seq_gen")
-    @SequenceGenerator(sequenceName = "board_a201912024_seq", name = "board_a201912024_seq_gen", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "a201912024_board_seq_gen")
+    @SequenceGenerator(sequenceName = "a201912024_board_seq", name = "a201912024_board_seq_gen", initialValue = 1, allocationSize = 1)
     private Long bno;
 
     @Column(length = 50, nullable = false)
