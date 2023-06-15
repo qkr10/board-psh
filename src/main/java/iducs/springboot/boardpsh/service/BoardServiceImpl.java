@@ -6,6 +6,7 @@ import iducs.springboot.boardpsh.domain.PageResultDTO;
 import iducs.springboot.boardpsh.entity.BoardEntity;
 import iducs.springboot.boardpsh.entity.MemberEntity;
 import iducs.springboot.boardpsh.repository.BoardRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +32,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public int registerBoard(Board board) {
         BoardEntity entity = new BoardEntity(board);
         boardRepository.save(entity);
@@ -45,7 +47,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public PageResultDTO<Board, Object[]> findBoardAll(PageRequestDTO pageRequestDTO) {
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("bno").descending());
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("replyCount").descending());
         Page<Object[]> result = boardRepository.searchPage(
                 pageRequestDTO.getType(),
                 pageRequestDTO.getKeyword(),
@@ -70,8 +72,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public int deleteBoard(Board board) {
-        return 0;
+        return boardRepository.deleteByBnoAndWriterName(board.getBno(), board.getWriterName());
     }
 
 //    BooleanBuilder findByCondition(PageRequestDTO pageRequestDTO) {

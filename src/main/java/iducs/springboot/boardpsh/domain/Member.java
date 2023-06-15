@@ -18,6 +18,8 @@ public class Member {
     private String email;
     private String name;
     private String pw;
+    private String mobile;
+    private String zipcode;
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;
@@ -27,6 +29,8 @@ public class Member {
         name = entity.getName();
         seq = entity.getSeq();
         pw = entity.getPw();
+        mobile = entity.getMobile();
+        zipcode = entity.getZipcode();
 
         regDate = entity.getRegDate();
         modDate = entity.getModDate();

@@ -72,6 +72,9 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
                     case "c":
                         conditionBuilder.or(boardEntity.content.contains(keyword)); // 게시물 내용
                         break;
+                    case "m":
+                        conditionBuilder.or(memberEntity.mobile.substring(9, 12).contains(keyword)); // 게시물 내용
+                        break;
                 }
             }
             booleanBuilder.and(conditionBuilder);

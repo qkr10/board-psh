@@ -13,8 +13,11 @@ public interface MemberService {
     List<Member> readList();
     int update(Member m);
     int delete(Member m);
+    int checkEmail(Member m);
+    int checkMember(Member member);
 
     boolean isExist(String email, String pwd);
 
     PageResultDTO<Member, MemberEntity> getList(PageRequestDTO requestDTO);
+
 }

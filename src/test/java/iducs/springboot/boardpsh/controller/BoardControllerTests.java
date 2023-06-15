@@ -26,6 +26,7 @@ public class BoardControllerTests {
                     .title("title"+i)
                     .content("content"+i)
                     .writerSeq(i)
+                    .replyCount(0L)
                     .build();
             boardService.registerBoard(board);
         });

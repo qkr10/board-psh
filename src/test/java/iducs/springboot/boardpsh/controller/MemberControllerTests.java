@@ -33,14 +33,31 @@ public class MemberControllerTests {
     void initializeMember() {
         memberRepository.deleteAll();
         IntStream.rangeClosed(1, 101).forEach(i -> {
+            int zeroCount = i < 10 ? 3 : (i < 100 ? 2 : 1);
+            String four = "0".repeat(zeroCount) + i;
+            String five = "0" + four;
             MemberEntity member = MemberEntity.builder()
                     .email("a"+i+"@induk.ac.kr")
                     .name("name" + i)
                     .pw("name" + i)
+                    .mobile("010-"+four+"-"+four)
+                    .zipcode(five)
                     .seq((long) i)
                     .build();
             memberRepository.save(member);
         });
+    }
+
+    @Test
+    void initializeAdmin() {
+        MemberEntity member = MemberEntity.builder()
+                .email("admin201912024@induk.ac.kr")
+                .name("admin")
+                .pw("admin")
+                .mobile("010-1111-1111")
+                .zipcode("00000")
+                .build();
+        memberRepository.save(member);
     }
 
     @Test

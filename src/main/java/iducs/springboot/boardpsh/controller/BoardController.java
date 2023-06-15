@@ -49,6 +49,50 @@ public class BoardController {
         return "/boards/detail";
     }
 
+    @GetMapping("/modi-form/{bno}")
+    public String getModifyForm(@PathVariable String bno,
+                                Model model, HttpSession session) {
+        var bnoNum = Long.parseLong(bno);
+        Member member = (Member) session.getAttribute("me");
+        if (member == null) {
+            return "redirect:/members/login"; //로그인이 안된 경우
+        }
+
+        model.addAttribute("board", boardService.findBoardById(Board.builder().bno(bnoNum).build()));
+        return "/boards/modi-form";
+    }
+
+    @PutMapping
+    public String modifyBoard(@ModelAttribute("board") Board board, Model model, HttpSession session) {
+        Member member = (Member) session.getAttribute("me");
+        if (member != null) {
+            board.setWriterSeq(member.getSeq());
+            if (boardService.registerBoard(board) == 1)
+                return "redirect:/boards";
+            else
+                return "/errors/404"; //게시물 등록 예외 처리
+        }
+        else
+            return "redirect:/members/login"; //로그인이 안된 경우
+    }
+
+    @GetMapping(value = {"/delete/{bno}"})
+    public String deleteBoard(
+            @PathVariable String bno,
+            Model model, HttpSession session) {
+        Member member = (Member) session.getAttribute("me");
+        if (member != null) {
+            var bnoNum = Long.parseLong(bno);
+            var res = boardService.deleteBoard(Board.builder().bno(bnoNum).writerName(member.getName()).build());
+            if (res == 1)
+                return "redirect:/boards";
+            else
+                return "/errors/404"; //게시물 삭제 예외 처리
+        }
+        else
+            return "redirect:/members/login"; //로그인이 안된 경우
+    }
+
     @GetMapping("/reg-form")
     public String getRegisterForm(Model model, HttpSession session) {
         Member member = (Member) session.getAttribute("me");

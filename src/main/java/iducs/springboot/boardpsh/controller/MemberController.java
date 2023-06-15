@@ -53,7 +53,7 @@ public class MemberController {
             @RequestParam(value = "perPagination", required = false, defaultValue = "5") String perPagination,
             @RequestParam(value = "type", required = false, defaultValue = "") String type,
             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
-            Model model
+            Model model, HttpSession session
     ) {
         var pageNum = Integer.parseInt(page);
         var sizeNum = Integer.parseInt(perPage);
@@ -63,7 +63,8 @@ public class MemberController {
                         .collect(Collectors.joining("&")));
 
         var members = memberService.getList(pageRequestDTO);
-        if(members != null) {
+        var me = (Member) session.getAttribute("me");
+        if(members != null && me.getEmail().compareTo("admin201912024@induk.ac.kr") == 0) {
             model.addAttribute("list", members);
             return "/members/list";
         }
@@ -82,6 +83,7 @@ public class MemberController {
     @GetMapping("/logout")
     public String getLogout(HttpSession httpSession) {
         httpSession.removeAttribute("me");
+        httpSession.removeAttribute("admin");
         httpSession.invalidate();
         return "redirect:/";
     }
@@ -90,25 +92,42 @@ public class MemberController {
     public String loginMember(@ModelAttribute("member") Member member, Model model) {
         String email = member.getEmail();
         String pwd = member.getPw();
-        if (memberService.isExist(email, pwd))
+        if (memberService.isExist(email, pwd)) {
             return "redirect:/";
+        }
         return "redirect:/members/login";
     }
 
-    @GetMapping("/pn")
-    public String getMemberList(Model model) {
-
-        List<Member> members;
-        if((members = memberService.readList()) != null) {
-            model.addAttribute("list", members);
-            return "/members/list";
-        }
-        else {
-            model.addAttribute("error message", "목록 조회에 실패. 권한 확인");
-            return "/error/message";
-        }
-
+    @PostMapping(value = "/check_email")
+    @ResponseBody
+    public int checkEmail(@RequestParam String email) {
+        Member member = Member.builder().email(email).build();
+        int cnt = memberService.checkEmail(member);
+        return cnt;
     }
+
+    @PostMapping(value = "/check_mobile")
+    @ResponseBody
+    public int checkMobile(@RequestParam String mobile) {
+        Member member = Member.builder().mobile(mobile).build();
+        int cnt = memberService.checkMember(member);
+        return cnt;
+    }
+
+//    @GetMapping("/pn")
+//    public String getMemberList(Model model) {
+//
+//        List<Member> members;
+//        if((members = memberService.readList()) != null) {
+//            model.addAttribute("list", members);
+//            return "/members/list";
+//        }
+//        else {
+//            model.addAttribute("error message", "목록 조회에 실패. 권한 확인");
+//            return "/error/message";
+//        }
+//
+//    }
 
 //    @GetMapping("/pn/{pn}")
 //    public String getMemberList2(@PathVariable String pn, Model model) {

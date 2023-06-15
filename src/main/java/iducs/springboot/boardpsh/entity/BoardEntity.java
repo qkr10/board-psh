@@ -29,6 +29,9 @@ public class BoardEntity extends BaseEntity {
     //@JoinColumn(name = "seq")
     private MemberEntity writer; // BoardEntity : MemberEntity = N : 1
 
+    @Column
+    private Integer replyCount;
+
     public BoardEntity(Board dto) {
         MemberEntity member = MemberEntity.builder()
                 .seq(dto.getWriterSeq())
@@ -38,5 +41,6 @@ public class BoardEntity extends BaseEntity {
         title = dto.getTitle();
         content = dto.getContent();
         writer = member;
+        replyCount = Math.toIntExact(dto.getReplyCount());
     }
 }

@@ -17,4 +17,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long>,
             "left join ReplyEntity r on r.board = b " +
             "where b.bno = :bno group by b, w")
     Object getBoardByBno(@Param("bno") Long bno);
+
+    int deleteByBnoAndWriterName(Long bno, String writerName);
 }

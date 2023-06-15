@@ -19,8 +19,13 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item" th:if="${session?.me?.email == 'admin201912024@induk.ac.kr'}">
+                            <a class="nav-link" href="/members">
+                                MemberList
+                            </a>
+                        </li>
                         <li class="nav-item" th:if="${session?.me}">
-                            <a class="nav-link" href="/members/login">
+                            <a class="nav-link" href="/members/logout">
                                 Logout
                             </a>
                         </li>
@@ -69,6 +74,7 @@
                             <option th:selected="${pageRequestDTO.type == 't'}" value="t">title</option>
                             <option th:selected="${pageRequestDTO.type == 'c'}" value="c">content</option>
                             <option th:selected="${pageRequestDTO.type == 'w'}" value="w">email</option>
+                            <option th:selected="${pageRequestDTO.type == 'm'}" value="m">mobile</option>
                         </select>
 
                         <input type="text" th:value="${pageRequestDTO.keyword}" th:field="*{keyword}">
@@ -82,9 +88,14 @@
                                 <a th:href="@{'/boards/' + ${board.bno}}"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
                                 <div class="card-body">
                                     <div class="small text-muted"><span th:text="${board.regDate}" ></span></div>
+                                    <div class="small text-muted"><span th:text="${board.replyCount}" ></span></div>
                                     <h2 class="card-title h4"><span th:text="${board.title}" ></span></h2>
                                     <p class="card-text"><span th:text="${board.content}" ></span></p>
                                     <a class="btn btn-primary" th:href="@{'/boards/' + ${board.bno}}">Read more →</a>
+                                    <a class="btn btn-primary" th:href="@{'/boards/modi-form/' + ${board.bno}}"
+                                       th:if="${session?.me?.name == board.writerName}">Modify</a>
+                                    <a class="btn btn-primary" th:href="@{'/boards/delete/' + ${board.bno}}"
+                                       th:if="${session?.me?.name == board.writerName}">Delete</a>
                                 </div>
                             </div>
                         </div>

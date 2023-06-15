@@ -29,15 +29,83 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
+                            <script>
+                                function checkEmail() {
+                                    const email = $('#exampleInputEmail').val();
+                                    $.ajax({
+                                        url:'/members/check_email',
+                                        type:'post',
+                                        data:{email:email},
+                                        success:function(cnt){
+                                            if(cnt == 0){
+                                                $('.email_ok').css("display", "inline-block");
+                                                $('.email_already').css('display', 'none');
+                                            } else {
+                                                $('.email_already').css('display', "inline-block");
+                                                $('.email_ok').css("display", 'none');
+                                            }
+                                        },
+                                        error:function () {
+                                            alert("에러입니다");
+                                        }
+                                    })
+                                }
+                                function checkMobile() {
+                                    const mobile = $('#exampleInputMobile').val();
+                                    if (mobile.length != 13) {
+                                        $('.mobile_already').css('display', "inline-block");
+                                        $('.mobile_ok').css("display", 'none');
+                                    }
+                                    else
+                                        $.ajax({
+                                            url:'/members/check_mobile',
+                                            type:'post',
+                                            data:{mobile:mobile},
+                                            success:function(cnt){
+                                                if(cnt == 0){
+                                                    $('.mobile_ok').css("display", "inline-block");
+                                                    $('.mobile_already').css('display', 'none');
+                                                } else {
+                                                    $('.mobile_already').css('display', "inline-block");
+                                                    $('.mobile_ok').css("display", 'none');
+                                                }
+                                            },
+                                            error:function () {
+                                                alert("에러입니다");
+                                            }
+                                        })
+                                }
+                            </script>
                             <form class="user" th:action="@{'/members/register'}" th:object="${member}" th:method="post">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" name="name" th:field="*{name}" class="form-control form-control-user" id="exampleFirstName">
+                                        <input type="text" name="name" th:field="*{name}" class="form-control form-control-user" id="exampleFirstName"
+                                               placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="email" name="email" th:field="*{email}" class="form-control form-control-user email_" id="exampleInputEmail"
+                                               placeholder="Email Address" oninput="checkEmail();">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span class="email_ok" style="display: none">ok : 사용 가능</span>
+                                        <span class="email_already" style="display: none">check : 사용 불가능</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" name="mobile" th:field="*{mobile}" class="form-control form-control-user" id="exampleInputMobile"
+                                               placeholder="Mobile" oninput="checkMobile();">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span class="mobile_ok" style="display: none">ok : 사용 가능</span>
+                                        <span class="mobile_already" style="display: none">check : 사용 불가능</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" th:field="*{email}" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                    <input type="text" name="zipcode" th:field="*{zipcode}" class="form-control form-control-user"
+                                           placeholder="Zipcode">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">

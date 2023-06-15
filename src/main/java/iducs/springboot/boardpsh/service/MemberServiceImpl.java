@@ -29,6 +29,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public int create(Member m) {
+        if (checkEmail(m) == 1) {
+            return 0;
+        }
         memberRepository.save(new MemberEntity(m));
         return 1;
     }
@@ -61,11 +64,32 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public int checkEmail(Member m) {
+        List<MemberEntity> memberEntities = memberRepository.getMemberEntitiesByEmail(m.getEmail());
+        if (memberEntities.size() > 0)
+            return 1;
+        else
+            return 0;
+    }
+
+    @Override
+    public int checkMember(Member member) {
+        List<MemberEntity> memberEntities = memberRepository.getMemberEntitiesByMobile(member.getMobile());
+        if (memberEntities.size() > 0)
+            return 1;
+        else
+            return 0;
+    }
+
+    @Override
     public boolean isExist(String email, String pwd) {
         List<MemberEntity> entityList = memberRepository.findByEmailAndPw(email, pwd);
         boolean result = entityList.size() == 1;
         System.out.println(entityList.size());
         if (result) {
+            if (email.compareTo("admin201912024@induk.ac.kr") == 0) {
+                httpSession.setAttribute("admin", 1);
+            }
             httpSession.setAttribute("me", new Member(entityList.get(0)));
         }
         return result;
