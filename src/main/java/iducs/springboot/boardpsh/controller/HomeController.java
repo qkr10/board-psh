@@ -21,7 +21,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String goHome(Model model) {
-        return "admin/index";
+        return "redirect:/boards";
     }
 
     @GetMapping("/tables")

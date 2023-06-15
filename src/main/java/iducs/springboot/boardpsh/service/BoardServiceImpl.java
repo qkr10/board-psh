@@ -39,7 +39,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board findBoardById(Board board) {
-        return null;
+        var result = boardRepository.findById(board.getBno());
+        return result.map(Board::new).orElse(null);
     }
 
     @Override

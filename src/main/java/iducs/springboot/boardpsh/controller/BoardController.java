@@ -21,12 +21,32 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @GetMapping
-    public String getBoardList(PageRequestDTO pageRequestDTO,
-                               Model model) {
+    @GetMapping(value = {""})
+    public String getBoardList(
+            @RequestParam(value = "page", required = false, defaultValue = "1") String page,
+            @RequestParam(value = "perPage", required = false, defaultValue = "8") String perPage,
+            @RequestParam(value = "perPagination", required = false, defaultValue = "5") String perPagination,
+            @RequestParam(value = "type", required = false, defaultValue = "") String type,
+            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+            Model model) {
+        var pageNum = Integer.parseInt(page);
+        var sizeNum = Integer.parseInt(perPage);
+        var pageSizeNum = Integer.parseInt(perPagination);
+        var pageRequestDTO = new PageRequestDTO(pageNum, sizeNum, pageSizeNum, type, keyword,
+                (map) -> "?"+map.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue())
+                        .collect(Collectors.joining("&")));
         model.addAttribute("list", boardService.findBoardAll(pageRequestDTO));
         model.addAttribute("pageRequestDTO", pageRequestDTO);
         return "/boards/list";
+    }
+
+    @GetMapping(value = {"/{bno}"})
+    public String getBoardDetail(
+            @PathVariable String bno,
+            Model model) {
+        var bnoNum = Long.parseLong(bno);
+        model.addAttribute("board", boardService.findBoardById(Board.builder().bno(bnoNum).build()));
+        return "/boards/detail";
     }
 
     @GetMapping("/reg-form")

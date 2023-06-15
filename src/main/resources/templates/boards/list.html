@@ -15,14 +15,35 @@
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
+                <a class="navbar-brand" href="/">Start Bootstrap</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
+                        <li class="nav-item" th:if="${session?.me}">
+                            <a class="nav-link" href="/members/login">
+                                Logout
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${session?.me}">
+                            <a class="nav-link" href="/boards/reg-form">
+                                Board Register
+                            </a>
+                        </li>
+                        <li class="nav-item" th:unless="${session?.me}">
+                            <a class="nav-link" href="/members/login">
+                                Login
+                            </a>
+                        </li>
+                        <li class="nav-item" th:unless="${session?.me}">
+                            <a class="nav-link" href="/members/reg-form">
+                                Register
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/boards">
+                                Board
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -68,19 +89,37 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Pagination-->
-                    <nav aria-label="Pagination">
-                        <hr class="my-0" />
-                        <ul class="pagination justify-content-center my-4">
-                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-                        </ul>
-                    </nav>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                                Showing <span th:text="${(list.curPage - 1) * list.size + 1}"></span>
+                                to <span th:text="${list.curPage * list.size}"></span>
+                                of <span th:text="${list.totalRows}"></span> entries
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                <ul class="pagination">
+                                    <li class="paginate_button page-item previous" id="dataTable_previous">
+                                        <a href="#" th:href="@{${list.prevLink}}"
+                                           aria-controls="dataTable" data-dt-idx="0" tabindex="0"
+                                           th:if="${list.prev}" class="page-link">Previous</a></li>
+                                    <li class="paginate_button page-item" th:classappend="${page.page == list.curPage ? ' active' : ''}" th:each="page : ${list.pageList}">
+                                        <a href="#" th:href="@{${page.pageLink}}"
+                                           aria-controls="dataTable" data-dt-idx="1" tabindex="0"
+                                           class="page-link">[[${page.page}]]</a>
+                                    </li>
+                                    <li class="paginate_button page-item next" id="dataTable_next">
+                                        <a href="#" th:href="@{${list.nextLink}}"
+                                           aria-controls="dataTable" data-dt-idx="2" tabindex="0"
+                                           th:if="${list.next}" class="page-link">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
